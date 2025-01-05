@@ -14,7 +14,12 @@ export default function Page() {
   return (
     <>
       Not signed in <br />
-      <button onClick={() => signIn()}>Sign in</button>
+      <button
+        className="bg-violet-600 rounded-md px-3 py-1 font-semibold text-white"
+        onClick={() => signIn()}
+      >
+        Sign in
+      </button>
     </>
   )
 }
