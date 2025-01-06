@@ -17,7 +17,7 @@ const messageSchema: Schema<Message> = new Schema({
   },
 })
 
-export const messageModel =
+export const MessageModel =
   (mongoose.models.Message as mongoose.Model<Message>) ||
   mongoose.model<Message>("messages", messageSchema)
 
@@ -42,7 +42,6 @@ const userSchema: Schema<User> = new Schema({
     type: String,
     unique: true,
     required: [true, "Email is required"],
-    match: [/.+\@.+\..+ /, "Email address"],
   },
   password: {
     type: String,
@@ -67,6 +66,6 @@ const userSchema: Schema<User> = new Schema({
   messages: [messageSchema],
 })
 
-export const userModel =
+export const UserModel =
   (mongoose.models.User as mongoose.Model<User>) ||
   mongoose.model<User>("user", userSchema)

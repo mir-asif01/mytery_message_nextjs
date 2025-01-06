@@ -1,4 +1,4 @@
-import { userModel } from "@/models/models"
+import { UserModel } from "@/models/models"
 import connectDb from "@/lib/connectDb"
 import bcrypt from "bcryptjs"
 
@@ -8,7 +8,7 @@ export async function POST(req: Request) {
   await connectDb()
   try {
     const { email, username, password } = await req.json()
-    const existingUserWithUsernameIsVerified = await userModel.findOne({
+    const existingUserWithUsernameIsVerified = await UserModel.findOne({
       username,
       isVerified: true,
     })
@@ -18,7 +18,7 @@ export async function POST(req: Request) {
         { status: 400 }
       )
     }
-    const existingUserWithEmail = await userModel.findOne({ email })
+    const existingUserWithEmail = await UserModel.findOne({ email })
     const expiryDate = new Date()
     expiryDate.setDate(expiryDate.getHours() + 1)
 
@@ -42,7 +42,7 @@ export async function POST(req: Request) {
     } else {
       const hashedPassword = await bcrypt.hash(password, 9)
 
-      const newUser = new userModel({
+      const newUser = new UserModel({
         username,
         email,
         password: hashedPassword,
