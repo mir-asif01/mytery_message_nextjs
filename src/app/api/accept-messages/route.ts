@@ -51,3 +51,40 @@ export async function POST(req: Request) {
     )
   }
 }
+
+export async function GET(req: Request) {
+  await connectDb()
+  await connectDb()
+  const session = await getServerSession(authOptions)
+  const user = session?.user as User
+  if (!session || !user) {
+    return Response.json(
+      {
+        success: false,
+        message: "User is not auhtenticated",
+      },
+      { status: 403 }
+    )
+  }
+  const userId = user?._id
+  try {
+    const foundUser = await UserModel.findByIdAndUpdate(userId)
+    if (!foundUser) {
+      return Response.json(
+        { success: false, message: "User not found" },
+        { status: 401 }
+      )
+    }
+    return Response.json({
+      user: foundUser,
+      success: true,
+      message: "User found",
+    })
+  } catch (error) {
+    console.log("Error while getting the User")
+    return Response.json(
+      { success: false, message: "error while getting the user" },
+      { status: 500 }
+    )
+  }
+}
